@@ -4,7 +4,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>种田短剧 · 创作选择器</title>
 <style>
-:root{color-scheme:light;--ink:#233f32;--muted:#627367;--paper:#f6f4ec;--line:#d8dfd2;--green:#2f6249}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"PingFang SC",sans-serif}main{max-width:1140px;margin:auto;padding:48px 24px}header{max-width:750px;margin-bottom:30px}.eyebrow{font-size:12px;letter-spacing:.15em;color:var(--green)}h1{font-size:clamp(30px,4vw,46px);line-height:1.2;margin:12px 0 18px}h2{font-size:21px;margin:0 0 12px}p{margin:8px 0;color:var(--muted)}.layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start}fieldset,.panel{border:1px solid var(--line);border-radius:18px;background:#fffdf8;padding:24px;margin:0 0 18px;min-width:0}legend{padding:0 8px;font-weight:700}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}label{display:block;font-size:14px;font-weight:600;margin:0 0 16px}input,select,textarea{display:block;width:100%;margin-top:7px;border:1px solid #aebdaf;border-radius:9px;background:white;padding:11px;color:#203c2c;font:inherit;font-weight:400}textarea{resize:vertical;min-height:90px}input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid #c4ddac;outline-offset:2px}.hint{font-size:13px;font-weight:400;color:var(--muted)}button{font:inherit;border-radius:10px;padding:11px 17px;border:1px solid var(--green);cursor:pointer;background:var(--green);color:white}button.secondary{background:transparent;color:var(--green)}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.summary{font-size:23px;font-weight:750}.tag{display:inline-block;padding:4px 10px;background:#edf2e5;border-radius:6px;font-size:13px;margin-bottom:12px}#prompt{min-height:330px;font:13px/1.75 ui-monospace,monospace}ol{padding-left:23px}li{margin:7px 0}.error{color:#a53223}#status{min-height:26px;font-size:14px}footer{margin-top:26px;font-size:13px;color:var(--muted)}[hidden]{display:none!important}@media(max-width:760px){main{padding:28px 16px}.layout,.grid{grid-template-columns:1fr}.panel,fieldset{padding:18px}h1{font-size:32px}}
+:root{color-scheme:light;--ink:#233f32;--muted:#627367;--paper:#f6f4ec;--line:#d8dfd2;--green:#2f6249}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"PingFang SC",sans-serif}main{max-width:1140px;margin:auto;padding:48px 24px}header{max-width:750px;margin-bottom:30px}.eyebrow{font-size:12px;letter-spacing:.15em;color:var(--green)}h1{font-size:clamp(30px,4vw,46px);line-height:1.2;margin:12px 0 18px}h2{font-size:21px;margin:0 0 12px}p{margin:8px 0;color:var(--muted)}.layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start}input[type="checkbox"]{display:inline-block;width:auto;margin:0 8px 0 0;accent-color:var(--green)}.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}.choices label{padding:10px;border:1px solid var(--line);border-radius:9px;margin:0}.choices input:disabled{opacity:.5}fieldset,.panel{border:1px solid var(--line);border-radius:18px;background:#fffdf8;padding:24px;margin:0 0 18px;min-width:0}legend{padding:0 8px;font-weight:700}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}label{display:block;font-size:14px;font-weight:600;margin:0 0 16px}input,select,textarea{display:block;width:100%;margin-top:7px;border:1px solid #aebdaf;border-radius:9px;background:white;padding:11px;color:#203c2c;font:inherit;font-weight:400}textarea{resize:vertical;min-height:90px}input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid #c4ddac;outline-offset:2px}.hint{font-size:13px;font-weight:400;color:var(--muted)}button{font:inherit;border-radius:10px;padding:11px 17px;border:1px solid var(--green);cursor:pointer;background:var(--green);color:white}button.secondary{background:transparent;color:var(--green)}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.summary{font-size:23px;font-weight:750}.tag{display:inline-block;padding:4px 10px;background:#edf2e5;border-radius:6px;font-size:13px;margin-bottom:12px}#prompt{min-height:330px;font:13px/1.75 ui-monospace,monospace}ol{padding-left:23px}li{margin:7px 0}.error{color:#a53223}#status{min-height:26px;font-size:14px}footer{margin-top:26px;font-size:13px;color:var(--muted)}[hidden]{display:none!important}@media(max-width:760px){main{padding:28px 16px}.layout,.grid,.choices{grid-template-columns:1fr}.panel,fieldset{padding:18px}h1{font-size:32px}}
 </style>
 </head>
 <body><main>
@@ -15,14 +15,34 @@
 <div class="grid"><label>题材<select id="genre"><option>农家经营</option><option>年代创业</option><option>逃荒安居</option><option>美食小店</option><option value="custom">自定义</option></select></label><label>时代背景<select id="setting"><option>架空古代</option><option>近现代年代</option><option>当代乡村</option><option value="custom">自定义</option></select></label></div>
 <label id="genreOtherLabel" hidden>自定义题材<input id="genreOther" placeholder="例如：海边渔村经营"></label>
 <label id="settingOtherLabel" hidden>自定义背景<input id="settingOther" placeholder="时代、地域及你确定的生活规则"></label>
-<div class="grid"><label>故事气质<select id="tone"><option>温暖经营，有真实分歧与成长</option><option>强冲突成长，阶段性逆转</option><option>轻喜剧，家常烟火气</option><option>现实质感，克制而有希望</option></select></label><label>能力设定<select id="ability"><option>无金手指</option><option>穿越经验，能力有限</option><option>有限特殊能力，须设代价</option></select></label></div>
+<label>故事气质<select id="tone"><option>温暖经营，家人共享成功</option><option>强冲突成长，逆袭与打脸</option><option>轻喜剧，家常烟火气</option><option>现实质感，克制而有希望</option></select></label>
+</fieldset><fieldset><legend>02 · 主角凭什么赢</legend>
+<label>主角来历<select id="origin"><option>重生：回到自己的过去</option><option>穿越：带着现代知识到另一时代</option><option>本土成长：在原世界获得机遇</option><option value="custom">自定义</option></select></label>
+<label id="originOtherLabel" hidden>自定义主角来历<input id="originOther" placeholder="例如：穿书成为农家女"></label>
+<label>前世身份 / 擅长领域<textarea id="previousLife" placeholder="例如：前世是成功的餐饮经营者，擅长招牌菜开发、门店运营、供应链和品牌推广。"></textarea></label>
+<p><strong>优势与金手指（可多选）</strong></p>
+<div class="choices" role="group" aria-label="优势与金手指">
+<label><input type="checkbox" name="advantage" value="前世专业经验" checked>前世专业经验</label>
+<label><input type="checkbox" name="advantage" value="先知记忆与时代信息差" checked>先知记忆与时代信息差</label>
+<label><input type="checkbox" name="advantage" value="随身空间与灵泉">随身空间与灵泉</label>
+<label><input type="checkbox" name="advantage" value="系统、任务与奖励">系统、任务与奖励</label>
+<label><input type="checkbox" name="advantage" value="学习与记忆强化">学习与记忆强化</label>
+<label><input type="checkbox" name="advantage" value="独家配方或技艺传承">独家配方或技艺传承</label>
+<label><input type="checkbox" name="advantage" value="资源、人脉或身份优势">资源、人脉或身份优势</label>
+<label><input type="checkbox" name="advantage" value="custom" id="advantageCustom">自定义金手指</label>
+<label><input type="checkbox" name="advantage" value="none" id="advantageNone">只按人物背景，不另加金手指</label>
+</div>
+<label id="advantageOtherLabel" hidden>自定义金手指内容<input id="advantageOther" placeholder="写出你想给主角的优势"></label>
+<label>爽感强度<select id="payoff"><option>温馨爽：优势持续兑现，全家生活步步变好</option><option>强爽逆袭：开局破局，持续赚钱与扬眉吐气</option><option>大开金手指：优势碾压，快速升级扩张</option><option>写实成长：按已有能力与现实条件发展</option></select></label>
+<label>金手指具体效果 / 想看的爽点<textarea id="abilityDetails" placeholder="例如：凭成熟餐饮经验做出爆款，预知商圈发展抢到好铺面；经验真正有用，不反复让女主犯低级错误。也可写空间、系统的功能与成长方式。"></textarea></label>
+<p class="hint">来历、金手指与故事气质可以组合。重生经验本身可以是强优势；不默认削弱能力，也不强制设副作用或惩罚。</p>
 </fieldset>
-<fieldset><legend>02 · 谁在过日子</legend>
+<fieldset><legend>03 · 谁在过日子</legend>
 <label>主角视角<select id="protagonist"><option>女性主角</option><option>男性主角</option><option>双主角</option><option>家庭群像</option></select></label>
 <label>人物与关系<textarea id="characters" placeholder="可填姓名、年龄、想要什么、缺点和关系。例如：母女一起经营，但母亲求稳，女儿想扩大；邻居希望当天拿到货款。"></textarea></label>
 <label>必须保留 / 不想出现<textarea id="constraints" placeholder="例如：不要恶毒亲戚循环打脸；感情线慢热；核心场景不超过五个。"></textarea></label>
 </fieldset>
-<fieldset><legend>03 · 做多长，先学什么</legend>
+<fieldset><legend>04 · 做多长，先学什么</legend>
 <div class="grid"><label>全季集数<input id="episodes" type="number" min="1" max="1000" step="1" value="100" required></label><label>每集正片时长（秒）<input id="seconds" type="number" min="15" max="3600" step="1" value="120" required></label></div>
 <div class="grid"><label>每批写作集数<input id="batch" type="number" min="1" max="1000" step="1" value="10" required></label><label>交付范围<select id="scope"><option value="full_scripts">整季结构 + 全季完整剧本</option><option value="outline_only">只做整季规划</option></select></label></div>
 <label>参考资料<textarea id="references" placeholder="填写准备交给 Codex 的资料文件夹、书目或自有原稿；没有资料可以留空。此页面不会读取路径或上传文件。"></textarea></label>
@@ -46,7 +66,9 @@ function numbers() {
   return {episodes: Number($('episodes').value), seconds: Number($('seconds').value), batch: Number($('batch').value)};
 }
 function updateSummary() {
-  customField('genre'); customField('setting');
+  customField('genre'); customField('setting'); customField('origin');
+  $('advantageOtherLabel').hidden = !$('advantageCustom').checked;
+  $('advantageOther').required = $('advantageCustom').checked;
   const n = numbers();
   if (![n.episodes,n.seconds,n.batch].every(v => Number.isInteger(v) && v > 0)) {
     $('summary').textContent = '请填写有效的集数与时长'; $('batchSummary').textContent = ''; return;
@@ -59,13 +81,16 @@ function updateSummary() {
 }
 function config() {
   const n = numbers();
-  return {schema_version:1,title:$('title').value.trim(),genre:$('genre').value==='custom'?$('genreOther').value.trim():$('genre').value,setting:$('setting').value==='custom'?$('settingOther').value.trim():$('setting').value,protagonist:$('protagonist').value,characters:$('characters').value.trim(),tone:$('tone').value,ability:$('ability').value,constraints:$('constraints').value.trim(),references:$('references').value.trim(),length:{episodes:n.episodes,seconds_per_episode:n.seconds},delivery:{scope:$('scope').value,batch_size:n.batch}};
+  return {schema_version:2,title:$('title').value.trim(),genre:$('genre').value==='custom'?$('genreOther').value.trim():$('genre').value,setting:$('setting').value==='custom'?$('settingOther').value.trim():$('setting').value,protagonist:$('protagonist').value,characters:$('characters').value.trim(),tone:$('tone').value,origin:$('origin').value==='custom'?$('originOther').value.trim():$('origin').value,previous_life:$('previousLife').value.trim(),advantages:[...document.querySelectorAll('input[name="advantage"]:checked')].map(el=>el.value==='custom'?$('advantageOther').value.trim():el.value==='none'?'只按人物背景，不另加金手指':el.value),payoff_level:$('payoff').value,ability_details:$('abilityDetails').value.trim(),constraints:$('constraints').value.trim(),references:$('references').value.trim(),length:{episodes:n.episodes,seconds_per_episode:n.seconds},delivery:{scope:$('scope').value,batch_size:n.batch}};
 }
 function generate() {
-  customField('genre'); customField('setting');
+  customField('genre'); customField('setting'); customField('origin');
+  $('advantageOtherLabel').hidden = !$('advantageCustom').checked;
+  $('advantageOther').required = $('advantageCustom').checked;
   if (!form.reportValidity()) return null;
   const c=config();
-  if(!c.title || !c.genre || !c.setting){$('status').textContent='项目名、题材和背景不能只填空格。';return null;}
+  if(!c.title || !c.genre || !c.setting || !c.origin){$('status').textContent='项目名、题材、背景和主角来历不能只填空格。';return null;}
+  if(!c.advantages.length || c.advantages.some(v=>!v.trim())){$('status').textContent='请选择至少一种优势，或明确选择不另加金手指；自定义内容不能只填空格。';return null;}
   const batches=[];
   for(let start=1;start<=c.length.episodes;start+=c.delivery.batch_size) batches.push(`${ep(start)}—${ep(Math.min(start+c.delivery.batch_size-1,c.length.episodes))}`);
   const full=c.delivery.scope==='full_scripts';
@@ -74,6 +99,7 @@ function generate() {
     '先提取我已填写的选择，只补问真正缺失的重要信息，不要重新问已确定的集数和时长。',
     c.references?'请核对我指定的参考资料是否可读，按题材定向学习，记录实际阅读范围；不能把抽读当通读。':'本次没有提供参考资料。可依据已有阅读笔记与原创方法继续，明确未进行新一轮参考阅读，不要编造书目或阅读经历。',
     '将阅读所得转为原创人物与情节决定，先建立故事设定和覆盖全部集号的分集规划。',
+    '按配置区分主角来历、优势来源和爽感强度。所选经验与金手指必须在关键情节中真正有效，早期就有可见回报，并持续带动赚钱、家人生活改善、逆袭或成长。不要默认加能力惩罚，也不要靠反复低级失误证明重生经验没用；若选择写实或不另加金手指，则尊重该路线。未选择的空间、系统等不要自动添加。',
     full?`随后持续编写全部 ${c.length.episodes} 集完整场景、动作与对白；内部保存与检查批次为：${batches.join('、')}。批次不缩小全季范围，不要每写三集就要求我说继续。`:'本次只交付完整季规划，不编写分集正文或制作视频。',
     `每集有效剧情目标 ${c.length.seconds_per_episode} 秒，片头片尾另计；按对白与独立动作估时，不能靠重复和停顿凑时长。`,
     '保存配置、学习记录、原创转化依据、季纲和进度；正文完成数须对应实际完整剧本。资源不足或执行中断时记录真实状态和续写接点，不承诺后台自动运行。',
@@ -82,7 +108,7 @@ function generate() {
   $('status').textContent='任务已生成。复制到 Codex 后开始学习与写作。';
   return c;
 }
-form.addEventListener('input',()=>{updateSummary();$('prompt').value='';$('status').textContent='选择已变更，请重新生成任务。';});
+form.addEventListener('input',event=>{if(event.target.name==='advantage' && event.target.checked){if(event.target.value==='none'){document.querySelectorAll('input[name="advantage"]').forEach(el=>{if(el!==event.target)el.checked=false;});}else{$('advantageNone').checked=false;}}updateSummary();$('prompt').value='';$('status').textContent='选择已变更，请重新生成任务。';});
 form.addEventListener('change',updateSummary);
 form.addEventListener('submit',event=>{event.preventDefault();generate();});
 $('copy').addEventListener('click',async()=>{
