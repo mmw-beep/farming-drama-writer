@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>种田短剧 · 创作选择器</title>
+<style>
+:root{color-scheme:light;--ink:#233f32;--muted:#627367;--paper:#f6f4ec;--line:#d8dfd2;--green:#2f6249}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"PingFang SC",sans-serif}main{max-width:1140px;margin:auto;padding:48px 24px}header{max-width:750px;margin-bottom:30px}.eyebrow{font-size:12px;letter-spacing:.15em;color:var(--green)}h1{font-size:clamp(30px,4vw,46px);line-height:1.2;margin:12px 0 18px}h2{font-size:21px;margin:0 0 12px}p{margin:8px 0;color:var(--muted)}.layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start}fieldset,.panel{border:1px solid var(--line);border-radius:18px;background:#fffdf8;padding:24px;margin:0 0 18px;min-width:0}legend{padding:0 8px;font-weight:700}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}label{display:block;font-size:14px;font-weight:600;margin:0 0 16px}input,select,textarea{display:block;width:100%;margin-top:7px;border:1px solid #aebdaf;border-radius:9px;background:white;padding:11px;color:#203c2c;font:inherit;font-weight:400}textarea{resize:vertical;min-height:90px}input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid #c4ddac;outline-offset:2px}.hint{font-size:13px;font-weight:400;color:var(--muted)}button{font:inherit;border-radius:10px;padding:11px 17px;border:1px solid var(--green);cursor:pointer;background:var(--green);color:white}button.secondary{background:transparent;color:var(--green)}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.summary{font-size:23px;font-weight:750}.tag{display:inline-block;padding:4px 10px;background:#edf2e5;border-radius:6px;font-size:13px;margin-bottom:12px}#prompt{min-height:330px;font:13px/1.75 ui-monospace,monospace}ol{padding-left:23px}li{margin:7px 0}.error{color:#a53223}#status{min-height:26px;font-size:14px}footer{margin-top:26px;font-size:13px;color:var(--muted)}[hidden]{display:none!important}@media(max-width:760px){main{padding:28px 16px}.layout,.grid{grid-template-columns:1fr}.panel,fieldset{padding:18px}h1{font-size:32px}}
+</style>
+</head>
+<body><main>
+<header><div class="eyebrow">FARMING DRAMA WRITER / 创作起点</div><h1>选一个世界，<br>让故事慢慢长出来。</h1><p>选择题材、背景、人物和长度，生成可交给 Codex 的创作任务。它会按你的选择定向学习、拆分全季，再编写具体场景与对白。</p></header>
+<div class="layout"><form id="creator">
+<fieldset><legend>01 · 故事是什么样</legend>
+<label>项目名称<input id="title" value="我的种田短剧" required maxlength="100"></label>
+<div class="grid"><label>题材<select id="genre"><option>农家经营</option><option>年代创业</option><option>逃荒安居</option><option>美食小店</option><option value="custom">自定义</option></select></label><label>时代背景<select id="setting"><option>架空古代</option><option>近现代年代</option><option>当代乡村</option><option value="custom">自定义</option></select></label></div>
+<label id="genreOtherLabel" hidden>自定义题材<input id="genreOther" placeholder="例如：海边渔村经营"></label>
+<label id="settingOtherLabel" hidden>自定义背景<input id="settingOther" placeholder="时代、地域及你确定的生活规则"></label>
+<div class="grid"><label>故事气质<select id="tone"><option>温暖经营，有真实分歧与成长</option><option>强冲突成长，阶段性逆转</option><option>轻喜剧，家常烟火气</option><option>现实质感，克制而有希望</option></select></label><label>能力设定<select id="ability"><option>无金手指</option><option>穿越经验，能力有限</option><option>有限特殊能力，须设代价</option></select></label></div>
+</fieldset>
+<fieldset><legend>02 · 谁在过日子</legend>
+<label>主角视角<select id="protagonist"><option>女性主角</option><option>男性主角</option><option>双主角</option><option>家庭群像</option></select></label>
+<label>人物与关系<textarea id="characters" placeholder="可填姓名、年龄、想要什么、缺点和关系。例如：母女一起经营，但母亲求稳，女儿想扩大；邻居希望当天拿到货款。"></textarea></label>
+<label>必须保留 / 不想出现<textarea id="constraints" placeholder="例如：不要恶毒亲戚循环打脸；感情线慢热；核心场景不超过五个。"></textarea></label>
+</fieldset>
+<fieldset><legend>03 · 做多长，先学什么</legend>
+<div class="grid"><label>全季集数<input id="episodes" type="number" min="1" max="1000" step="1" value="100" required></label><label>每集正片时长（秒）<input id="seconds" type="number" min="15" max="3600" step="1" value="120" required></label></div>
+<div class="grid"><label>每批写作集数<input id="batch" type="number" min="1" max="1000" step="1" value="10" required></label><label>交付范围<select id="scope"><option value="full_scripts">整季结构 + 全季完整剧本</option><option value="outline_only">只做整季规划</option></select></label></div>
+<label>参考资料<textarea id="references" placeholder="填写准备交给 Codex 的资料文件夹、书目或自有原稿；没有资料可以留空。此页面不会读取路径或上传文件。"></textarea></label>
+<p class="hint">推荐预设为 100 集 × 120 秒，可自由调整。批次是保存和校验的单位，不会把全季任务缩成十集。</p>
+<button type="submit">生成创作任务</button>
+</fieldset></form>
+<aside><section class="panel"><span class="tag">你的创作规格</span><div class="summary" id="summary"></div><p id="batchSummary"></p><ol><li>整理你的选择，补齐真正缺失的设定。</li><li>按题材选择参考，记录实际读到的章节。</li><li>建立人物与全季事件，再拆成写作批次。</li><li>编写完整剧本，核对时长、钱粮与情节接续。</li></ol><p class="hint">本页是需求选择器，不是自动写作服务。没有接入模型，不会在网页上直接生成一百集。</p></section>
+<section class="panel"><h2>交给 Codex 的任务</h2><p class="hint">填写后点击“生成创作任务”。复制下方内容，在已安装技能的 Codex 对话中发送；也可导出配置交给它读取。</p><label for="prompt">创作指令<textarea id="prompt" readonly placeholder="你的选择将在这里整理成完整指令。"></textarea></label><div class="actions"><button type="button" id="copy" class="secondary">复制指令</button><button type="button" id="download" class="secondary">下载配置 JSON</button></div><p id="status" role="status" aria-live="polite"></p></section></aside></div>
+<footer>本页离线可用，无外部脚本，不上传输入。参考阅读、正文编写与进度保存由 Codex 执行；文字剧本不等于已制作的视频。关闭页面前请复制或下载，输入不会自动保存。</footer>
+</main><script>
+'use strict';
+const $ = id => document.getElementById(id);
+const form = $('creator');
+const ep = n => 'EP' + String(n).padStart(3, '0');
+function customField(id) {
+  const on = $(id).value === 'custom';
+  $(id + 'OtherLabel').hidden = !on;
+  $(id + 'Other').required = on;
+}
+function numbers() {
+  return {episodes: Number($('episodes').value), seconds: Number($('seconds').value), batch: Number($('batch').value)};
+}
+function updateSummary() {
+  customField('genre'); customField('setting');
+  const n = numbers();
+  if (![n.episodes,n.seconds,n.batch].every(v => Number.isInteger(v) && v > 0)) {
+    $('summary').textContent = '请填写有效的集数与时长'; $('batchSummary').textContent = ''; return;
+  }
+  $('summary').textContent = `${n.episodes} 集 × ${n.seconds} 秒`;
+  const mins = Number((n.episodes*n.seconds/60).toFixed(2));
+  $('batchSummary').textContent = $('scope').value === 'outline_only'
+    ? `规划正片约 ${mins} 分钟。本次只做全季规划，不编写分集正文。`
+    : `正片约 ${mins} 分钟 · 分 ${Math.ceil(n.episodes/n.batch)} 批写作，每批最多 ${n.batch} 集。`;
+}
+function config() {
+  const n = numbers();
+  return {schema_version:1,title:$('title').value.trim(),genre:$('genre').value==='custom'?$('genreOther').value.trim():$('genre').value,setting:$('setting').value==='custom'?$('settingOther').value.trim():$('setting').value,protagonist:$('protagonist').value,characters:$('characters').value.trim(),tone:$('tone').value,ability:$('ability').value,constraints:$('constraints').value.trim(),references:$('references').value.trim(),length:{episodes:n.episodes,seconds_per_episode:n.seconds},delivery:{scope:$('scope').value,batch_size:n.batch}};
+}
+function generate() {
+  customField('genre'); customField('setting');
+  if (!form.reportValidity()) return null;
+  const c=config();
+  if(!c.title || !c.genre || !c.setting){$('status').textContent='项目名、题材和背景不能只填空格。';return null;}
+  const batches=[];
+  for(let start=1;start<=c.length.episodes;start+=c.delivery.batch_size) batches.push(`${ep(start)}—${ep(Math.min(start+c.delivery.batch_size-1,c.length.episodes))}`);
+  const full=c.delivery.scope==='full_scripts';
+  $('prompt').value = [
+    '请使用 $farming-drama-writer 按以下配置开展创作。',
+    '先提取我已填写的选择，只补问真正缺失的重要信息，不要重新问已确定的集数和时长。',
+    c.references?'请核对我指定的参考资料是否可读，按题材定向学习，记录实际阅读范围；不能把抽读当通读。':'本次没有提供参考资料。可依据已有阅读笔记与原创方法继续，明确未进行新一轮参考阅读，不要编造书目或阅读经历。',
+    '将阅读所得转为原创人物与情节决定，先建立故事设定和覆盖全部集号的分集规划。',
+    full?`随后持续编写全部 ${c.length.episodes} 集完整场景、动作与对白；内部保存与检查批次为：${batches.join('、')}。批次不缩小全季范围，不要每写三集就要求我说继续。`:'本次只交付完整季规划，不编写分集正文或制作视频。',
+    `每集有效剧情目标 ${c.length.seconds_per_episode} 秒，片头片尾另计；按对白与独立动作估时，不能靠重复和停顿凑时长。`,
+    '保存配置、学习记录、原创转化依据、季纲和进度；正文完成数须对应实际完整剧本。资源不足或执行中断时记录真实状态和续写接点，不承诺后台自动运行。',
+    '配置 JSON：',JSON.stringify(c,null,2)
+  ].join('\n\n');
+  $('status').textContent='任务已生成。复制到 Codex 后开始学习与写作。';
+  return c;
+}
+form.addEventListener('input',()=>{updateSummary();$('prompt').value='';$('status').textContent='选择已变更，请重新生成任务。';});
+form.addEventListener('change',updateSummary);
+form.addEventListener('submit',event=>{event.preventDefault();generate();});
+$('copy').addEventListener('click',async()=>{
+  if(!generate()) return;
+  try{await navigator.clipboard.writeText($('prompt').value);$('status').textContent='已复制。请在 Codex 中粘贴并发送。';}
+  catch{ $('prompt').focus();$('prompt').select();$('status').textContent='已选中指令，请按 Ctrl+C 或 ⌘C 复制。';}
+});
+$('download').addEventListener('click',()=>{
+  const c=generate();if(!c)return;
+  const url=URL.createObjectURL(new Blob([JSON.stringify(c,null,2)+'\n'],{type:'application/json;charset=utf-8'}));
+  const a=document.createElement('a');a.href=url;a.download='project_config.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  $('status').textContent='已请求下载 project_config.json，可将它交给 Codex 读取。';
+});
+updateSummary();
+</script></body></html>
