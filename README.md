@@ -2,16 +2,17 @@
 
 **让一季收成，长成一部值得追下去的短剧。**
 
-一个面向中文种田题材的 Codex Skill：从参考阅读、选题和长篇故事开发，到分集剧本与制作交接。适用于农家经营、年代创业、灾后安居，以及由种田小说开发的连续短剧。
+一个面向中文种田题材的 Codex Skill：从交互选择题材、背景、人物和长度，到定向参考阅读、全季拆分、完整分集剧本与制作交接。适用于农家经营、年代创业、灾后安居，以及由种田小说开发的连续短剧。
 
 它把农事、有限资源与人物选择连在一起：一袋种子可以影响生计，一张订单可以改变家人的关系，一顿好饭可以兑现观众等待了几集的愿望。
 
-> This Chinese-first Codex skill develops original rural-life stories into serialized short-drama scripts. It supports reference analysis, story development, episode writing, continuity tracking, and production handoff. It does not generate finished videos on its own.
+> This Chinese-first Codex skill develops original rural-life stories into serialized short-drama scripts. It includes an offline creative brief picker and supports targeted reference analysis, full-season planning, episode writing, resumable progress, and production handoff. It does not generate finished videos on its own.
 
 ## 可以做什么
 
 | 阶段 | 工作内容 | 交付示例 |
 |---|---|---|
+| 交互选项 | 选择题材、背景、人物关系、集数、时长和范围 | 创作指令、JSON 配置 |
 | 参考学习 | 比较阅读吸引力和短剧改编潜力，记录实际阅读范围 | 阅读笔记、推荐方向 |
 | 故事开发 | 建立人物目标、经营链、阶段回报和关系变化 | 项目简报、故事设定 |
 | 短剧写作 | 将事件组织为可表演的场景、动作和对白 | 季纲、完整分集剧本 |
@@ -20,9 +21,9 @@
 
 ```mermaid
 flowchart LR
-    A[参考资料与创作需求] --> B[阅读比较与选题]
+    A[选择题材 / 背景 / 人物 / 长度] --> B[定向阅读与比较]
     B --> C[原创故事与人物]
-    C --> D[季纲与分集剧本]
+    C --> D[全季规划与分批完整剧本]
     D --> E[时长与连续性检查]
     E --> F[分镜制作交接]
     E --> D
@@ -56,24 +57,53 @@ flowchart LR
 给出有具体依据的比较，不要把抽读说成通读。
 ```
 
-**开发新短剧**
+**方式一：在对话里选择**
 
 ```text
-用 $farming-drama-writer 开发一部原创种田短剧。
-架空古代，女主经营育苗生意，家人有不同主张，不要空间金手指。
-暂定 40 集，每集约 90 秒，先交付季纲和前三集完整剧本。
-重点场景不超过五个，感情在合作和分歧中慢慢发展。
+用 $farming-drama-writer 带我选择题材、背景和人物。
+长度已定：100 集，每集 2 分钟。其他选择请分组问我。
+选择后定向阅读我提供的资料，先建立全季结构，再编写全部完整剧本。
+```
+
+**方式二：使用本地选择页面**
+
+下载并解压本仓库，双击 `assets/creator.html`，用浏览器打开 [创作选择器文件](assets/creator.html)。在 GitHub 上点击该文件只会预览源码；需下载到本地运行。无需安装依赖、无需账号或 API Key。
+
+1. 选择题材、时代、主角、风格，填写人物关系与想保留的元素。
+2. 选择集数和单集秒数；默认 **100 集 × 120 秒 = 200 分钟**，可修改。
+3. 填参考资料位置，选择“全季完整剧本”或“仅规划”。
+4. 点击“生成创作任务”，复制指令到 Codex，或下载 `project_config.json` 后交给 Codex 读取。
+
+页面不调用模型、不读取本地资料、不上传输入，也不会在网页里直接生成剧本。关闭页面前请复制或下载。真正的阅读、比较、拆分与写作由已安装本技能的 Codex 执行。
+
+**一次说清也可以**
+
+```text
+用 $farming-drama-writer 开发原创年代创业短剧。
+背景由你给三个合理方向供我选；姐妹双主角，经营线为主，不要空间。
+100 集，每集 120 秒，内部每 10 集保存和检查一次。
+先学习我指定的参考资料，说明实际阅读范围和适合迁移的方法，
+再建立全季事件规划并写完整剧本，批次不等于把任务缩成十集。
 ```
 
 **继续已有项目**
 
 ```text
-用 $farming-drama-writer 读取这个项目的设定、上一集和连续性记录，
-完成第 4—6 集，承接已有集尾，不修改已经确定的钱粮和人物关系。
-每集都要有具体动作与对白，不能只给剧情摘要。
+用 $farming-drama-writer 读取项目配置、进度、连续性和最后完整一集，
+从实际未完成处继续全季剧本，不重新问已有选择，不将大纲算成正文。
 ```
 
-用户明确的题材、篇幅和风格优先；40 集、90 秒只是无具体要求时可修改的工作假设，不是平台规则。
+100 集、120 秒是可修改的长剧预设，不是平台规则；明确的用户长度和范围始终优先。每集时长要按对白与动作估算并经围读校准，不靠空镜和停顿填满。
+
+## 从选择到完整剧本
+
+- **定向学习**：按本次题材选参考，比较“好读”和“适合这部短剧”，记录真正读到的章节或范围。
+- **原创转化**：把学到的方法落实到新人物、新经营事件和关系变化，不复制原作场景链。
+- **全季拆分**：先覆盖所有集号和阶段回报，再按可配置批次写具体场景、动作、对白。
+- **真实进度**：学习、大纲、正文、校验、媒体制作分别记录。100 集大纲不等于100 集剧本。
+- **可恢复执行**：记录最后完整集、待解决问题和下一接点。执行受限时说明实际完成情况，不许诺无人触发的后台自动写作。
+
+具体协议与验收例子见 [交互与长剧执行](references/interactive-workflow.md)。
 
 ## 看一个例子
 
@@ -96,7 +126,9 @@ flowchart LR
 .
 ├── SKILL.md                         # 技能入口与工作模式
 ├── agents/openai.yaml               # 技能显示信息
+├── assets/creator.html              # 离线交互选择器，导出指令与配置
 ├── references/
+│   ├── interactive-workflow.md      # 选择、学习、全季拆分与续写进度
 │   ├── reference-study.md           # 阅读范围与比较方法
 │   ├── reading-lessons.md           # 有限样本形成的阅读经验
 │   ├── story-development.md         # 长篇与人物开发
