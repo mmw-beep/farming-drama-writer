@@ -47,6 +47,14 @@
 <div class="grid"><label>每批写作集数<input id="batch" type="number" min="1" max="1000" step="1" value="10" required></label><label>交付范围<select id="scope"><option value="full_scripts">整季结构 + 全季完整剧本</option><option value="outline_only">只做整季规划</option></select></label></div>
 <label>参考资料<textarea id="references" placeholder="填写准备交给 Codex 的资料文件夹、书目或自有原稿；没有资料可以留空。此页面不会读取路径或上传文件。"></textarea></label>
 <p class="hint">推荐预设为 100 集 × 120 秒，可自由调整。批次是保存和校验的单位，不会把全季任务缩成十集。</p>
+</fieldset><fieldset><legend>05 · 后续制作（可选）</legend>
+<label>制作交付<select id="productionMode"><option value="none">只做前面选择的剧本 / 规划</option><option value="prompts">拍摄剧本 + 镜头表 + 人物三视图与镜头出图提示词</option><option value="images">以上制作资料 + 用 Codex Image 实际生成图片</option></select></label>
+<div id="productionFields" hidden>
+<label>制作集号<input id="productionEpisodes" placeholder="例如：EP001，或 EP001—EP003；留空时制作前补问范围"></label>
+<label>成片 / 镜头画幅<select id="aspect"><option value="">制作前再确定</option><option>9:16</option><option>16:9</option><option>1:1</option></select></label>
+<label>视觉风格<input id="visualStyle" placeholder="例如：90年代真人影视质感、温暖自然光；也可选国风动画"></label>
+<p class="hint">三视图采用适合并排展示的横版参考页，镜头图按成片画幅。先定人物，再出场景与镜头。网页只生成任务；实际图片由 Codex 内置 Image 生成，视频另行制作。</p>
+</div>
 <button type="submit">生成创作任务</button>
 </fieldset></form>
 <aside><section class="panel"><span class="tag">你的创作规格</span><div class="summary" id="summary"></div><p id="batchSummary"></p><ol><li>整理你的选择，补齐真正缺失的设定。</li><li>按题材选择参考，记录实际读到的章节。</li><li>建立人物与全季事件，再拆成写作批次。</li><li>编写完整剧本，核对时长、钱粮与情节接续。</li></ol><p class="hint">本页是需求选择器，不是自动写作服务。没有接入模型，不会在网页上直接生成一百集。</p></section>
@@ -69,6 +77,7 @@ function updateSummary() {
   customField('genre'); customField('setting'); customField('origin');
   $('advantageOtherLabel').hidden = !$('advantageCustom').checked;
   $('advantageOther').required = $('advantageCustom').checked;
+  $('productionFields').hidden = $('productionMode').value === 'none';
   const n = numbers();
   if (![n.episodes,n.seconds,n.batch].every(v => Number.isInteger(v) && v > 0)) {
     $('summary').textContent = '请填写有效的集数与时长'; $('batchSummary').textContent = ''; return;
@@ -81,7 +90,7 @@ function updateSummary() {
 }
 function config() {
   const n = numbers();
-  return {schema_version:2,title:$('title').value.trim(),genre:$('genre').value==='custom'?$('genreOther').value.trim():$('genre').value,setting:$('setting').value==='custom'?$('settingOther').value.trim():$('setting').value,protagonist:$('protagonist').value,characters:$('characters').value.trim(),tone:$('tone').value,origin:$('origin').value==='custom'?$('originOther').value.trim():$('origin').value,previous_life:$('previousLife').value.trim(),advantages:[...document.querySelectorAll('input[name="advantage"]:checked')].map(el=>el.value==='custom'?$('advantageOther').value.trim():el.value==='none'?'只按人物背景，不另加金手指':el.value),payoff_level:$('payoff').value,ability_details:$('abilityDetails').value.trim(),constraints:$('constraints').value.trim(),references:$('references').value.trim(),length:{episodes:n.episodes,seconds_per_episode:n.seconds},delivery:{scope:$('scope').value,batch_size:n.batch}};
+  return {schema_version:2,title:$('title').value.trim(),genre:$('genre').value==='custom'?$('genreOther').value.trim():$('genre').value,setting:$('setting').value==='custom'?$('settingOther').value.trim():$('setting').value,protagonist:$('protagonist').value,characters:$('characters').value.trim(),tone:$('tone').value,origin:$('origin').value==='custom'?$('originOther').value.trim():$('origin').value,previous_life:$('previousLife').value.trim(),advantages:[...document.querySelectorAll('input[name="advantage"]:checked')].map(el=>el.value==='custom'?$('advantageOther').value.trim():el.value==='none'?'只按人物背景，不另加金手指':el.value),payoff_level:$('payoff').value,ability_details:$('abilityDetails').value.trim(),constraints:$('constraints').value.trim(),references:$('references').value.trim(),length:{episodes:n.episodes,seconds_per_episode:n.seconds},delivery:{scope:$('scope').value,batch_size:n.batch},production:{mode:$('productionMode').value,episode_scope:$('productionEpisodes').value.trim(),aspect_ratio:$('aspect').value,visual_style:$('visualStyle').value.trim(),image_engine:'codex_builtin_image',character_views:['front','side','back']}};
 }
 function generate() {
   customField('genre'); customField('setting'); customField('origin');
@@ -91,6 +100,7 @@ function generate() {
   const c=config();
   if(!c.title || !c.genre || !c.setting || !c.origin){$('status').textContent='项目名、题材、背景和主角来历不能只填空格。';return null;}
   if(!c.advantages.length || c.advantages.some(v=>!v.trim())){$('status').textContent='请选择至少一种优势，或明确选择不另加金手指；自定义内容不能只填空格。';return null;}
+  if(c.delivery.scope==='outline_only' && c.production.mode!=='none'){$('status').textContent='镜头制作需要完整场景剧本，请将交付范围改为全季完整剧本，或关闭后续制作。';return null;}
   const batches=[];
   for(let start=1;start<=c.length.episodes;start+=c.delivery.batch_size) batches.push(`${ep(start)}—${ep(Math.min(start+c.delivery.batch_size-1,c.length.episodes))}`);
   const full=c.delivery.scope==='full_scripts';
@@ -103,6 +113,7 @@ function generate() {
     full?`随后持续编写全部 ${c.length.episodes} 集完整场景、动作与对白；内部保存与检查批次为：${batches.join('、')}。批次不缩小全季范围，不要每写三集就要求我说继续。`:'本次只交付完整季规划，不编写分集正文或制作视频。',
     `每集有效剧情目标 ${c.length.seconds_per_episode} 秒，片头片尾另计；按对白与独立动作估时，不能靠重复和停顿凑时长。`,
     '保存配置、学习记录、原创转化依据、季纲和进度；正文完成数须对应实际完整剧本。资源不足或执行中断时记录真实状态和续写接点，不承诺后台自动运行。',
+    ...(c.production.mode==='none'?[]:[`后续制作范围：${c.production.episode_scope||'尚未指定，制作前仅补问制作集号，不默认扩成全季出图'}。画幅：${c.production.aspect_ratio||'尚未指定，最终镜头提示词及出图前补问'}；视觉风格：${c.production.visual_style||'尚未指定，制作前确定'}。`, '按已完成且设定一致的剧本版本，整理可表演的拍摄剧本、逐镜动作对白、时长、机位、衔接与人物/场景/道具参考。建立稳定角色ID，准备正面、侧面、背面人物三视图，再准备场景与无文字镜头关键帧；中英文提示词分文件保存。', c.production.mode==='images'?'调用 Codex 内置 Image 实际生成指定范围的角色三视图、场景参考与镜头关键帧。先检视人物参考，再用真实参考图保持身份一致。保存可访问的图片和清单；分镜板由干净画面与程序排版组成。不要改用需API Key的接口，不将三视图或多格分镜板作为单镜视频主图；这不包含视频生成。':'本次只准备制作资料与可直接交给 Codex Image 的提示词，不调用图片或视频生成。', '按实际状态分别记录剧本、镜头规划、提示词、图片生成与验收完成度。剧本修改后标记受影响素材待重做，不将预计路径计作已生成图片。']),
     '配置 JSON：',JSON.stringify(c,null,2)
   ].join('\n\n');
   $('status').textContent='任务已生成。复制到 Codex 后开始学习与写作。';
