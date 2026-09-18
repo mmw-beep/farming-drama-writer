@@ -83,3 +83,9 @@
 - “继续”：按已有状态恢复，不重新提问所有偏好，不覆盖已认可稿件。
 
 - 金手指验收：“轻喜剧＋重生＋成熟餐饮经验＋信息差”应兼有幽默与持续成功，不能退回无外挂受挫教育片。选择空间＋系统时两项均应有明确作用；明确不另加金手指时不得擅加。
+
+## 后续图片制作配置
+
+schema_version 2 可选 `production` 对象：`mode` 为 `none`、`prompts` 或 `images`；`episode_scope` 为用户选择的集号/范围；`aspect_ratio`、`visual_style` 保存制作规格；`image_engine` 为 `codex_builtin_image`；`character_views` 为 front/side/back。缺少 production 的旧配置视为 none，不自动开图。
+
+剧本集数与制作集号是不同范围。制作范围空白时仅补问要制作哪些集；不能据50集正文授权推导50集全量出图。范围解析应支持 EP001、EP001—EP003、全季，检查集号在全季内并按实际完整剧本核对，不能把原始输入作为命令执行。仅规划模式不进入镜头制作。prompts 模式交付文本，images 模式才实际调用图片工具。按 [制作与验收](production-and-qa.md) 执行，画幅未确定时先完成独立准备，再补问，不把界面默认值当用户批准。
