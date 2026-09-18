@@ -1,0 +1,4 @@
+interface:
+  display_name: "种田短剧创作"
+  short_description: "从参考文比较到原创种田故事、分集剧本与可交接的短剧制作资料"
+  default_prompt: "使用 $farming-drama-writer，学习我的种田文参考资料，选出适合改编短剧的方向，创作原创故事与分集剧本。"
